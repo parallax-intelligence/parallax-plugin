@@ -68,7 +68,7 @@ Per output template in investor-profiles skill. Data table: Factor | Score | 52-
 
 ## Greenblatt Mode
 
-**Universe scoping warning:** `build_stock_universe` times out on broad queries. Default: "US large-cap consumer staples". Sector-scoped queries only. On a "still running" reply, run one `check_job_status` on the returned `job_id`. If it is still pending, do not start a second job: return INSUFFICIENT_UNIVERSE, and name the pending `job_id` with an offer to check it later. Only if the job failed, run one narrower query — a new billed call (5 credits), not a re-call. Handle that query's reply the same way (one `check_job_status` if still running); if it fails or is still pending, return INSUFFICIENT_UNIVERSE.
+**Universe scoping warning:** `build_stock_universe` times out on broad queries. Default: "US large-cap consumer staples". Sector-scoped queries only. On a "still running" reply, follow the async-jobs check budget on the returned `job_id`. If it is still running after the budget, do not start a second job: return INSUFFICIENT_UNIVERSE, and name the pending `job_id` with an offer to check it later. Only if the job failed, run one narrower query — a new billed call (5 credits), not a re-call. Handle that query's reply the same way (the async-jobs check budget if still running); if it fails or is still pending, return INSUFFICIENT_UNIVERSE.
 
 ### Universe Mode (no ticker)
 
@@ -139,7 +139,7 @@ Checklist table: Check | Observed | Peer comparator | Result. Report observed va
 
 ### Basket Mode (no ticker)
 
-6. For each theme, `build_stock_universe` with sector-scoped thematic query. Timeout handling: on a "still running" reply, run one `check_job_status` on the returned `job_id`. If it is still pending, do not start a second job: drop that theme for this run and list it as pending, and name the pending `job_id` with an offer to check it later. Only if the job failed, run one narrower query — a new billed call (5 credits), not a re-call. Handle that query's reply the same way (one `check_job_status` if still running); if it is still pending, drop that theme for this run and list it as pending with its `job_id`; if it failed, drop that theme and list it as unavailable.
+6. For each theme, `build_stock_universe` with sector-scoped thematic query. Timeout handling: on a "still running" reply, follow the async-jobs check budget on the returned `job_id`. If it is still running after the budget, do not start a second job: drop that theme for this run and list it as pending, and name the pending `job_id` with an offer to check it later. Only if the job failed, run one narrower query — a new billed call (5 credits), not a re-call. Handle that query's reply the same way (the async-jobs check budget if still running); if it is still pending, drop that theme for this run and list it as pending with its `job_id`; if it failed, drop that theme and list it as unavailable.
 7. Cap each theme at top 20 by composite_score.
 8. Call `get_peer_snapshot` and `get_company_info` for the top 3-5 per theme in parallel. Drop identity mismatches.
 9. Rank within theme by momentum + macro sensitivity.
