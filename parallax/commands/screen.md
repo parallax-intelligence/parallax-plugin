@@ -34,7 +34,7 @@ Ratio 3's numerator is interest-and-investment income from `get_financials` (sta
 1. `get_company_info` — check sector against prohibited industries (conventional banking/insurance, alcohol, tobacco, gambling, pork, weapons, adult entertainment). **Short-circuit:** if the business-activity screen FAILs, mark non-compliant and skip the financial calls entirely — the ratios cannot cure a prohibited industry.
 2. If activity screen passes, in parallel: `get_financials` (statement="balance_sheet") + `get_financials` (statement="income"). Compute the 3 ratios above. Do not use statement="ratios": it carries no interest-income or revenue field (verified live 2026-10-22). If any input field a ratio needs is missing or null, that ratio is "Data unavailable" — never treat a missing value as a pass. A stock with any ratio "Data unavailable" gets no compliant verdict: mark it **Unverified**. **FAIL (non-compliant) if any computed ratio breaches its threshold** — a breach on a successfully computed ratio overrides an Unverified status from a different ratio's missing data.
 3. If Ratio 3 is above 0% and at or below 5%: compute the purification ratio (interest-and-investment income / total revenue).
-4. Optional: `get_financial_analysis` for deeper profitability decomposition (async, up to ~5 min server-side — warn user; on a "still running" reply follow the async-jobs skill, never re-call).
+4. Optional: `get_financial_analysis` for deeper profitability decomposition (async, typically 2-5 min — warn user; on a "still running" reply follow the async-jobs skill, never re-call).
 5. `get_score_analysis` for quality trajectory. Note: `explain_methodology` does not cover shariah/halal concepts — do not route there.
 
 ### Portfolio Mode
@@ -66,7 +66,7 @@ Render the AI-interaction disclosure per the conventions skill §9.2, then end w
 | `get_financials` | `symbol`, statement="income" | Revenue/margin trends (server-default periods) |
 | `get_financials` | `symbol`, statement="cash_flow" | Cash conversion |
 | `get_financials` | `symbol`, statement="ratios" | Accrual ratios |
-| `get_financial_analysis` | `symbol` | Async, up to ~5 min server-side — Palepu forensic. Warn user upfront; on a "still running" reply follow the async-jobs skill, never re-call |
+| `get_financial_analysis` | `symbol` | Async, typically 2-5 min — Palepu forensic. Warn user upfront; on a "still running" reply follow the async-jobs skill, never re-call |
 | `get_news_synthesis` | `symbol` | Async — server waits for the result; on a "still running" reply follow the async-jobs skill; never re-call — accounting news, auditor changes |
 
 ### Batch B — AI synthesis (after A)

@@ -38,7 +38,7 @@ Batch B also issues two async data calls. Issue them in the same parallel messag
 | `get_technical_analysis` | `symbol` | Trend, RSI, MACD, support/resistance |
 | `get_news_synthesis` | `symbol` | Catalysts and news context |
 
-Both are async: the server waits for each job and returns the result in the same call (up to 120s and 150s). Never re-call one; on a "still running" or failed reply, follow the async-jobs skill. They are kept out of Batch A because a parallel batch returns only when its slowest call returns.
+Both are async: the server waits for each job and returns the result in the same call (each call waits up to 45 s). Never re-call one; on a "still running" or failed reply, follow the async-jobs skill. They are kept out of Batch A because a parallel batch returns only when its slowest call returns.
 
 ## Batch C — AI Assessment (after A + B)
 
@@ -48,7 +48,7 @@ Apply fallback rules from conventions skill for any missing data.
 
 ## Full Mode
 
-For deeper due diligence, add to Batch A: `get_financials` for income, balance_sheet and cash_flow (ratios is already in Batch A). Add `get_stock_report` (async, up to ~5 min server-side, 10 credits) to the Batch B message with the other async calls, never to Batch A. Warn about cost and wait time. **Scope note:** Full Mode output is an internal analyst working document, not designed for client forwarding — say so in the output header.
+For deeper due diligence, add to Batch A: `get_financials` for income, balance_sheet and cash_flow (ratios is already in Batch A). Add `get_stock_report` (async, typically 1-2 min, 10 credits; the call returns within 45 s, then follow the async-jobs skill) to the Batch B message with the other async calls, never to Batch A. Warn about cost and wait time. **Scope note:** Full Mode output is an internal analyst working document, not designed for client forwarding — say so in the output header.
 
 ## Output
 

@@ -27,8 +27,8 @@ description: Reference for which Parallax MCP tool or command to call for any in
 | "What do analysts think?" | `get_stock_outlook` (aspect="analyst_targets") |
 | "Price history / daily prices" | `export_price_series` (stocks) or `etf_daily_price` (ETFs) — route per asset-class-routing skill |
 | "How has [stock] performed?" / "returns by year or month" | `get_performance_history` — YTD, 12-month, yearly and monthly returns, 1-year return and volatility against peers; equities only — for an ETF use `etf_daily_price` |
-| "Full research report PDF" | `get_stock_report` (10 credits; waits server-side up to 300s per the async-jobs skill) |
-| "ETF research report" | `get_etf_report` (10 credits; the server waits up to 300s and returns inline, per the async-jobs skill); if it returns several candidate ETFs, confirm one with the user before generating |
+| "Full research report PDF" | `get_stock_report` (10 credits; waits up to 45 s, then follow the async-jobs skill) |
+| "ETF research report" | `get_etf_report` (10 credits; waits up to 45 s and returns inline if done, then follow the async-jobs skill); if it returns several candidate ETFs, confirm one with the user before generating |
 | "Deep dive on [stock]" | `/parallax:deep-dive` |
 | "What's the market doing today?" | `get_telemetry` |
 | "Which theme is [stock] in?" / "what's moving in [market]?" / "top baskets" | `explore_telemetry` — telemetry baskets by stock, market, or theme; the daily narrative and regime stay with `get_telemetry` |

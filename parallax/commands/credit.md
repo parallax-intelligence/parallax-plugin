@@ -36,7 +36,7 @@ Batch B needs only the resolved symbol, but launch it after the Batch A cross-va
 
 | Tool | Parameters | Purpose |
 |---|---|---|
-| `get_financial_analysis` | `symbol` | Solvency assessment — async, up to ~5 min server-side |
+| `get_financial_analysis` | `symbol` | Solvency assessment — async, typically 2-5 min; the call returns within 45 s, then follow the async-jobs skill |
 | `get_score_analysis` | `symbol` | Quality-score trajectory (52w server default) |
 | `get_telemetry` | fields: regime_tag, signals, commentary.headline, commentary.mechanism, divergences | Market regime; no symbol parameter |
 

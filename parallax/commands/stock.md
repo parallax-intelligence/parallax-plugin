@@ -37,7 +37,7 @@ Two async data calls also belong to this step. Issue them in the same parallel m
 | `get_technical_analysis` | `symbol` | Trend, momentum, support/resistance |
 | `get_news_synthesis` | `symbol` | Catalysts and news context |
 
-Both are async: the server waits for each job and returns the result in the same call (up to 120s and 150s). Never re-call one; on a "still running" or failed reply, follow the async-jobs skill. They are kept out of Step 2 because a parallel batch returns only when its slowest call returns.
+Both are async: the server waits for each job and returns the result in the same call (each call waits up to 45 s). Never re-call one; on a "still running" or failed reply, follow the async-jobs skill. They are kept out of Step 2 because a parallel batch returns only when its slowest call returns.
 
 
 1. `list_macro_countries` to check coverage.
